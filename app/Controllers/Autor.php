@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\models\AutorModel;
+use App\Models\AutorModel;
 
 class Autor extends BaseController
 {
