@@ -50,10 +50,23 @@
             <label for="autores">Autores</label>
         </div>
         <div class="col-10">
-             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Adicionar...
-            </button>
+            <?php
+                $autores;
+                foreach($listaAutores as $autor){
+                    $autores[$autor['id']] = $autor['nome'];
+                }
+            ?>
+            <?php foreach($listaAutoresObras as $lao) : ?>
+                <?php if($lao['id_obra'] == $obra['id']) : ?>
+                    <div><?=$autores[$lao['id_autor']]?></div>
+                <?php endif ?>
+            <?php endforeach ?>    
+            <!-- Button Adicionar Autor da Obra -->
+            <div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Adicionar...
+                </button>
+            </div>
         </div>
     </div>
     <div class="row p-2">
@@ -83,6 +96,7 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <?=form_open("Obra/adicionarAutor")?>
+        <input value="<?=$obra['id']?>" type="hidden" name='id_obra' id='id_obra'>
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">

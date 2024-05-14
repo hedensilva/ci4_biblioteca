@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ObraModel;
 use App\Models\EditoraModel;
 use App\Models\AutorModel;
+use App\Models\AutorObraModel;
 
 
 class Obra extends BaseController
@@ -14,11 +15,13 @@ class Obra extends BaseController
     private $editoraModel;
     private $obraModel;
     private $autorModel;
+    private $autorObraModel;
 
     public function __construct(){
         $this->editoraModel = new EditoraModel();
         $this->obraModel = new ObraModel();
         $this->autorModel = new AutorModel();
+        $this->autorObraModel = new AutorObraModel();
     }
     public function index()
     {
@@ -38,14 +41,24 @@ class Obra extends BaseController
         $dados = $this->obraModel->find($id);
         $dadosEditora = $this->editoraModel->findAll();
         $dadosAutor = $this->autorModel->findAll();
+        $dadosAutorObra = $this->autorObraModel->findAll();
 
         echo view('_partials/header');
         echo view('_partials/navbar');
         echo view('obra/edit',[
             'obra' => $dados, 
             'listaEditoras' => $dadosEditora,
-            'listaAutores' => $dadosAutor
+            'listaAutores' => $dadosAutor,
+            'listaAutoresObras' => $dadosAutorObra
         ]);
         echo view('_partials/footer');
+    }
+    public function adicionarAutor(){
+        $this->autorObraModel->save(
+            $this->request->getPost()
+        );
+        return redirect()->to(
+            'Obra/editar/'.$this->request->getPost('id_obra')
+        );
     }
 }
